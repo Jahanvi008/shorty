@@ -16,4 +16,13 @@ const templateHTML = fs.readFileSync(path.join(__dirname, 'template.html'), 'utf
 
 for (let [slug, url] of Object.entries(redirects)){
     console.log("Generating HTML page for ", slug);
+
+    const html = templateHTML.replaceAll("https://example.com", url);
+    
+    //create folder for each slug
+    const folderPath = path.join(__dirname, 'out' , slug);
+    fs.mkdirSync(folderPath, {recursive: true})
+
+    //Create index.html in each slug directory
+    fs.writeFileSync(path.join(folderPath, 'index.html'), html);
 }
